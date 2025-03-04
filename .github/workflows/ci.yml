@@ -11,7 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  main:
+  pr:
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +41,10 @@ jobs:
       # When you enable task distribution, run the e2e-ci task instead of e2e
       - run: npx nx affected -t lint test build e2e
 
+  main:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -50,3 +55,5 @@ jobs:
       - name: Copy to S3 Bucket
         run: |
           aws s3 cp ./dist/gaa-fixtures s3://gaa-fixtures --recursive
+
+
