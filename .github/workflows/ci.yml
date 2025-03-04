@@ -40,19 +40,13 @@ jobs:
       # When you enable task distribution, run the e2e-ci task instead of e2e
       - run: npx nx affected -t lint test build e2e
 
-      # Configure AWS credentials
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      # Sync files to S3 bucket
-      - name: Sync files to S3
-        uses: aws-actions/s3-sync@v2
-        with:
-          source-dir: ./dist/apps/gaa-fixtures
-          destination-bucket: gaa-fixtures
-          destination-dir: /
-          delete: true
+          aws-region: us-east-1  # Change this to your region of your bucket
+        
+      - name: Copy to S3 Bucket
+        run: |
+          aws s3 cp ./dist/gaa-fixtures s3://gaa-fixtures --recursive
