@@ -49,4 +49,4 @@ jobs:
         
       - name: Copy to S3 Bucket
         run: |
-          aws s3 cp ./dist/gaa-fixtures/* s3://gaa-fixtures --recursive
+          aws s3 cp ./dist/gaa-fixtures s3://gaa-fixtures --recursive
