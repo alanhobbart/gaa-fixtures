@@ -49,4 +49,4 @@ jobs:
         
       - name: Copy to S3 Bucket
         run: |
-          aws s3 cp ./dist/gaa-fixtures/browser/* s3://gaa-fixtures
+          aws s3 cp ./dist/gaa-fixtures/browser s3://gaa-fixtures
